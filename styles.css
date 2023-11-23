@@ -1,40 +1,58 @@
-body {
-  font-family: Arial, sans-serif;
+/* Resetting default margin and padding */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #f4f4f4;
 }
 
 .calculator {
   background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  max-width: 400px;
+  width: 100%;
 }
 
 h1 {
   color: #333;
+  margin-bottom: 20px;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  color: #555;
 }
 
 input[type="number"],
 input[type="text"],
 select,
-intput,
 button {
-  padding: 8px;
-  margin-bottom: 15px;
+  padding: 10px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
+  width: 100%;
+  font-size: 16px;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  outline: none;
 }
 
 button {
@@ -49,10 +67,58 @@ button:hover {
 }
 
 #output {
-  margin-top: 20px;
+  margin-top: 30px;
   text-align: left;
+  padding: 15px;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none;
 }
 
 #output p {
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* Your existing CSS styles */
+
+/* Style for the input container */
+#inputContainer {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Styles for the label */
+#inputContainer label {
+  display: block;
   margin-bottom: 10px;
+  color: #333;
+}
+
+/* Styles for the input field */
+#cgpaInput {
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  font-size: 16px;
+}
+
+/* Styles for the submit button */
+#inputContainer button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the submit button */
+#inputContainer button:hover {
+  background-color: #0056b3;
 }

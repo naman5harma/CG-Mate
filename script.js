@@ -3,38 +3,81 @@ document.addEventListener("DOMContentLoaded", function () {
   const courseInputs = document.getElementById("courseInputs");
   const courseList = document.getElementById("courseList");
   const outputDiv = document.getElementById("output");
+  let totalSemesters = 0;
+  let sgg = 0;
 
   semesterForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const semester = parseInt(document.getElementById("semester").value);
-    setupCourseInputs(semester);
+    if (semester > 1) {
+      askForPreviousSemesters(semester - 1);
+    } else {
+      setupCourseInputs();
+    }
+    totalSemesters = semester;
   });
 
-  function setupCourseInputs(semester) {
+  function askForPreviousSemesters(numSemesters) {
+    outputDiv.innerHTML = ""; // Clear previous output if any
+
+    // Display the input container
+    const inputContainer = document.getElementById("inputContainer");
+    const semesterNumber = document.getElementById("semesterNumber");
+    semesterNumber.textContent = numSemesters;
+    inputContainer.style.display = "block";
+
+    // Handle CGPA submission when the user clicks 'Submit'
+    window.submitCGPA = function () {
+      const cgpaInput = document.getElementById("cgpaInput");
+      const cgpa = parseFloat(cgpaInput.value);
+
+      // Validate the entered CGPA (between 0 and 10)
+      if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+        alert("Please enter a valid cumulative CGPA between 0 and 10.");
+        return;
+      }
+      sgg = cgpa;
+
+      const cgpa_prevSem = cgpa; // Use the provided cumulative CGPA
+
+      console.log("Cumulative CGPA till previous semester:", cgpa_prevSem);
+
+      // Hide the input container after submitting CGPA
+      inputContainer.style.display = "none";
+
+      // Proceed to set up inputs for the current semester courses
+      setupCourseInputs();
+    };
+
+    // semesterForm.style.display = "none";
+    // courseInputs.style.display = "block";
+  }
+
+  function setupCourseInputs() {
     semesterForm.style.display = "none";
     courseInputs.style.display = "block";
     courseList.innerHTML = "";
 
-    for (let i = 1; i <= semester; i++) {
+    for (let i = 1; i <= 1; i++) {
       const div = document.createElement("div");
       div.innerHTML = `
-          <h3>Course ${i}</h3>
-          <label for="credits_${i}">Enter credits for Course ${i}:</label>
-          <input type="number" id="credits_${i}" name="credits_${i}" required min="1" max="6">
-          <label for="grade_${i}">Select grade for Course ${i}:</label>
-          <select id="grade_${i}" name="grade_${i}" required>
-            <option value="">Select Grade</option>
-            <option value="A">A</option>
-            <option value="A-">A-</option>
-            <option value="B">B</option>
-            <option value="B-">B-</option>
-            <option value="C">C</option>
-            <option value="C-">C-</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-          </select>
-        `;
+        <h3>Course ${i}</h3>
+        <label for="credits_${i}">Enter credits for Course ${i}:</label>
+        <input type="number" id="credits_${i}" name="credits_${i}" required min="1" max="6">
+        <label for="grade_${i}">Select grade for Course ${i}:</label>
+        <select id="grade_${i}" name="grade_${i}" required>
+          <option value="">Select Grade</option>
+          <option value="A">A</option>
+          <option value="A-">A-</option>
+          <option value="B">B</option>
+          <option value="B-">B-</option>
+          <option value="C">C</option>
+          <option value="C-">C-</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+        </select>
+      `;
       courseList.appendChild(div);
     }
   }
@@ -50,31 +93,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const courseCount = courseList.childElementCount;
     const div = document.createElement("div");
     div.innerHTML = `
-        <h3>Course ${courseCount + 1}</h3>
-        <label for="credits_${courseCount + 1}">Enter credits for Course ${
+      <h3>Course ${courseCount + 1}</h3>
+      <label for="credits_${courseCount + 1}">Enter credits for Course ${
       courseCount + 1
     }:</label>
-        <input type="number" id="credits_${courseCount + 1}" name="credits_${
+      <input type="number" id="credits_${courseCount + 1}" name="credits_${
       courseCount + 1
-    }" required>
-        <label for="grade_${courseCount + 1}">Select grade for Course ${
+    }" required min="1" max="6">
+      <label for="grade_${courseCount + 1}">Select grade for Course ${
       courseCount + 1
     }:</label>
-        <select id="grade_${courseCount + 1}" name="grade_${
+      <select id="grade_${courseCount + 1}" name="grade_${
       courseCount + 1
     }" required>
-          <option value="">Select Grade</option>
-          <option value="A">A</option>
-          <option value="A-">A-</option>
-          <option value="B">B</option>
-          <option value="B-">B-</option>
-          <option value="C">C</option>
-          <option value="C-">C-</option>
-          <option value="D">D</option>
-          <option value="E">E</option>
-          <option value="F">F</option>
-        </select>
-      `;
+        <option value="">Select Grade</option>
+        <option value="A">A</option>
+        <option value="A-">A-</option>
+        <option value="B">B</option>
+        <option value="B-">B-</option>
+        <option value="C">C</option>
+        <option value="C-">C-</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+      </select>
+    `;
     courseList.appendChild(div);
   }
 
@@ -150,11 +193,19 @@ document.addEventListener("DOMContentLoaded", function () {
       return; // Exiting function to avoid division by zero
     }
 
-    const cgpa = totalGradePoints / totalCredits;
-    console.log("CGPA:", cgpa);
+    // const cgpa = totalGradePoints / totalCredits;
+    // console.log("CGPA:", cgpa);
 
-    outputDiv.innerHTML = `<p>Your CGPA for Semester is: ${cgpa.toFixed(
-      2
-    )}</p>`;
+    // console.log("SGPA:", sgpa);
+    // console.log("CGPA:", cgpa);
+
+    numSemesters = totalSemesters;
+    outputDiv.style.display = "block";
+    outputDiv.innerHTML = `<p>Your Expected CGPA is: ${(
+      (sgg * (numSemesters - 1) + totalGradePoints / totalCredits) /
+      totalSemesters
+    ).toFixed(2)}</p><p>Your Expected SGPA is: ${(
+      totalGradePoints / totalCredits
+    ).toFixed(2)}</p>`;
   }
 });
