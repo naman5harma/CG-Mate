@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="calculator">
+      <h1>CGPA Calculator</h1>
+
+      <form id="semesterInput">
+        <label for="semester">Enter current semester number:</label>
+        <input
+          type="number"
+          id="semester"
+          name="semester"
+          min="1"
+          value="1"
+          required
+        />
+        <button type="submit">Submit</button>
+      </form>
+
+      <div id="courseInputs" style="display: none">
+        <form id="courseForm">
+          <div id="courseList"></div>
+          <button type="submit">Add Course</button>
+          <button type="button" id="calculateButton">Calculate</button>
+        </form>
+      </div>
+
+      <div id="output"></div>
+
+      <script src="script.js"></script>
+    </div>
+  </body>
+</html>
